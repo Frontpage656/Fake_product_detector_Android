@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     MaterialCardView theTable;
     char char_value;
     String to_be_incypted;
+
+    String countyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private void execution() {
 
         try {
+
             String categoryType = results_code.substring(0, results_code.indexOf("@"));
             String code = results_code.substring(results_code.indexOf("@") + 1, results_code.indexOf("["));
             String productName = results_code.substring(results_code.indexOf("[") + 1, results_code.indexOf("]"));
@@ -166,7 +170,16 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
 
-                    county_code.setText(code);
+
+                    if (code.equals("255")){
+                        countyName="TANZ";
+                    }else if (code.equals("254")){
+                        countyName = "KENY";
+                    }else {
+                        countyName = "IND";
+                    }
+
+                    county_code.setText(countyName);
                     product.setText(productName);
                     price.setText(productPrice);
                     exDate.setText(dateDate);
@@ -185,9 +198,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
+
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MainActivity.this);
-                            builder.setTitle("Uncommon!")
-                                    .setMessage("Product is fake!")
+                            builder.setTitle("Warning!!!")
+                                    .setMessage("Product is unknown")
                                     .setPositiveButton("Report", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
